@@ -9,6 +9,8 @@ app.use(cors());
 
 app.use("", router);
 
-app.listen(process.env.PORT, () => {
-  console.log("Server running in http://localhost:3000");
+const PORT = process.env.PORT
+
+app.listen(PORT, () => {
+  console.log(`Server running in http://localhost:${PORT}`);
 });

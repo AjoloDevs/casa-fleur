@@ -8,5 +8,8 @@ const controller = new UserController(service);
 const UserRoute = Router();
 
 UserRoute.get("/", controller.findAllUsers);
+UserRoute.post("/", controller.createUser)
+UserRoute.patch("/:id", controller.updateUser)
+UserRoute.delete("/:id", controller.deleteUser)
 
 export default UserRoute;
