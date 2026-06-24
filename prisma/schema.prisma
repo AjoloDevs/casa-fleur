@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated" 
+  output   = "../src/generated"
 }
 
 datasource db {
@@ -8,10 +8,18 @@ datasource db {
 }
 
 model User {
-  idUser    String    @id     @default(uuid()) 
-  name      String   
-  email     String    @unique
-  password  String    
-  numberPhone     String 
-  city      String
+  idUser       String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  password     String
+  phone        String   
+  address      String
+  city         String
+  status       String   @default("Active") @map("status")
+  orders       Int      @default(0)
+  totalSpent   Float    @default(0)
+  registeredAt DateTime @default(now())
+  lastOrderAt  DateTime? 
+  createdAt    DateTime @default(now()) 
+  updatedAt    DateTime @updatedAt 
 }

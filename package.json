@@ -8,7 +8,7 @@
     "dev": "nodemon --watch src --ext ts --exec ts-node ./src/index.ts",
     "start": "node dist/index.js",
     "migrate:dev": "pnpm exec prisma migrate dev --name init",
-    "generated:dev": "pnpm exec prisma generate"
+    "generate:dev": "pnpm exec prisma generate"
   },
   "keywords": [],
   "author": "",

@@ -5,59 +5,72 @@ import { UserService } from "./user.service";
 export class UserController {
   constructor(private service: UserService) { }
 
-  findAllUsers = async (_req: Request, res: Response) => {
+  findAll = async (_req: Request, res: Response) => {
     try {
       const users = await this.service.findAll();
       return res.json(users);
+    } catch (err) {
+      return res.status(500).json({ message: "Server error" });
+    }
+  };
+
+  findById = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const user = await this.service.findById(id as string);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      return res.json(user);
+    } catch (err) {
+      return res.status(500).json({ message: "Server error" });
+    }
+  };
+
+  create = async (req: Request, res: Response) => {
+    const result = UserSchema.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({ message: "Invalid data", errors: result.error.issues });
+    }
+
+    try {
+      const user = await this.service.create(result.data);
+      return res.status(201).json(user);
     } catch (err: any) {
       return res.status(400).json({ message: err.message || "Server error" });
     }
   };
 
-  createUser = async (req: Request, res: Response) => {
-    const result = UserSchema.safeParse(req.body)
-    if (!result.success) {
-      return res.status(400).json({ message: "Invalid data", errors: result.error.issues })
-    }
-    const validatedData = result.data
-    try {
-      const user = await this.service.create(validatedData)
-      return res.status(201).json(user)
-    } catch (err: any) {
-      return res.status(400).json({ message: err.message || "Server error" });
-    }
-  }
-
-  updateUser = async (req: Request, res: Response) => {
-    const { id } = req.params
-    const result = UserUpdateSchema.safeParse(req.body)
+  update = async (req: Request, res: Response) => {
+    const { id } = req.params;
     if (!id) {
-      return res.status(400).json({ message: "Invalid credential" })
+      return res.status(400).json({ message: "Invalid credential" });
     }
+
+    const result = UserUpdateSchema.safeParse(req.body);
     if (!result.success) {
-      return res.status(400).json({ message: "Invalid data", errors: result.error.issues })
+      return res.status(400).json({ message: "Invalid data", errors: result.error.issues });
     }
-    const validatedData = result.data
+
     try {
-      const userUpdate = await this.service.update(id as string, validatedData)
-      return res.json(userUpdate)
+      const user = await this.service.update(id as string, result.data);
+      return res.json(user);
     } catch (err: any) {
       return res.status(400).json({ message: err.message || "Server error" });
     }
-  }
+  };
 
-  deleteUser = async (req: Request, res: Response) => {
-    const { id } = req.params
+  delete = async (req: Request, res: Response) => {
+    const { id } = req.params;
     if (!id) {
-      return res.status(400).json({ message: "Invalid credential" })
+      return res.status(400).json({ message: "Invalid credential" });
     }
+
     try {
-      await this.service.delete(id as string)
-      return res.json({ message: "User deleted" })
+      await this.service.delete(id as string);
+      return res.json({ message: "User deleted" });
     } catch (err: any) {
       return res.status(400).json({ message: err.message || "Server error" });
     }
-
-  }
-
+  };
 }

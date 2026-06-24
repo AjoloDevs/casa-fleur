@@ -12,7 +12,8 @@ docker compose up -d
 
 ```bash
 pnpm install
-pnpm migrate:dev
+cp .env.example .env
+npm migrate:dev
 pnpm generated:dev
 pnpm dev
 ```
