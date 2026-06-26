@@ -5,6 +5,7 @@
 - Run database
 
 ```bash
+cp .env.example .env
 docker compose up -d
 ```
 
@@ -12,7 +13,6 @@ docker compose up -d
 
 ```bash
 pnpm install
-cp .env.example .env
 npm migrate:dev
 pnpm generated:dev
 pnpm dev
