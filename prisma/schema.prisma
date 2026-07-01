@@ -34,3 +34,26 @@ model Product{
   status       String       @default("Active")  
   image        String
 }
+
+model Promotion {
+  idPromotion     String   @id @default(uuid())
+  title           String
+  description     String
+  code            String   @unique
+  discount        Int      
+  type            String   
+  startDate       String   
+  endDate         String   
+  isActive        Boolean  @default(true)
+  currentUsage    Int      @default(0)
+  usageLimit      Int
+  status          String   
+  minimumPurchase String   
+  segment         String
+  condition       String
+  views           Int      @default(0)
+  conversions     Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
